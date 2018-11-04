@@ -22,4 +22,43 @@ CREATE INDEX c_ot_index on C_prime(ot);
 CREATE INDEX c_hund_index on C_prime(hund);
 CREATE INDEX c_ten_index on C_prime(ten);
 
-/* Section 1 */
+PRAGMA automatic_index = FALSE;
+/** Section 1 **/
+
+/*1*/
+EXPLAIN QUERY PLAN SELECT * FROM A JOIN B WHERE A.pk =B.pk;
+
+/*2*/
+EXPLAIN QUERY PLAN SELECT * FROM A JOIN B WHERE A.ht =B.ht;
+
+/*3*/
+EXPLAIN QUERY PLAN SELECT * FROM A_prime JOIN B_prime WHERE A_prime.ht =B_prime.ht;
+
+/*4*/
+EXPLAIN QUERY PLAN SELECT * FROM A JOIN B WHERE A.ten =B.ten;
+
+/*5*/
+EXPLAIN QUERY PLAN SELECT * FROM A_prime JOIN B_prime ON A_prime.ten =B_prime.ten;
+
+/*6*/
+EXPLAIN QUERY PLAN SELECT * FROM A JOIN B ON A.ht =B.ten;
+
+/*7*/
+EXPLAIN QUERY PLAN SELECT * FROM B JOIN A ON B.ten =A.ht;
+
+/*8*/
+EXPLAIN QUERY PLAN SELECT * FROM A JOIN B ON A.ht =B_prime.ten;
+
+/*9*/
+EXPLAIN QUERY PLAN SELECT * FROM B_prime JOIN A ON B_prime.ten = A.ht;
+
+/* 3 way joins */
+/*10*/
+EXPLAIN QUERY PLAN SELECT * FROM A JOIN B ON A.ht = B.ht JOIN C ON B.ht = C.ht;
+
+/*11*/
+EXPLAIN QUERY PLAN SELECT * FROM A JOIN B ON A.ten = B.ten JOIN C ON B.ten = C.ten;
+
+/*12 TODO: Check if 10 and 11 produce different results*/
+
+
